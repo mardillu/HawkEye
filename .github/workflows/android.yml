@@ -17,9 +17,6 @@ jobs:
       run: ./gradlew test
     - name: Run UI Tests
       run: |
-        sdkmanager "system-images;android-19;google_apis;armeabi-v7a"
-        sdkmanager --update
-        sdkmanager --licenses
         echo no | avdmanager create avd --force --name test_device --package "system-images;android-19;google_apis;armeabi-v7a" -c 100M
         $ANDROID_HOME/emulator/emulator -no-window -no-audio -avd test_device -no-snapshot-load -no-snapshot-save &
           # build while waiting for device to be completely started
