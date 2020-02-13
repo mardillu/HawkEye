@@ -16,6 +16,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew test
     - name: Run UI Tests
+      uses: actions/setup-java@v1
       run: |
       sdkmanager "system-images;android-19;google_apis;armeabi-v7a"
       sdkmanager --update
