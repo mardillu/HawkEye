@@ -16,19 +16,18 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew test
     - name: Run UI Tests
-      uses: actions/setup-java@v1
       run: |
-      sdkmanager "system-images;android-19;google_apis;armeabi-v7a"
-      sdkmanager --update
-      sdkmanager --licenses
-      echo no | avdmanager create avd --force --name test_device --package "system-images;android-19;google_apis;armeabi-v7a" -c 100M
-      $ANDROID_HOME/emulator/emulator -no-window -no-audio -avd test_device -no-snapshot-load -no-snapshot-save &
+        sdkmanager "system-images;android-19;google_apis;armeabi-v7a"
+        sdkmanager --update
+        sdkmanager --licenses
+        echo no | avdmanager create avd --force --name test_device --package "system-images;android-19;google_apis;armeabi-v7a" -c 100M
+        $ANDROID_HOME/emulator/emulator -no-window -no-audio -avd test_device -no-snapshot-load -no-snapshot-save &
           # build while waiting for device to be completely started
-      bash ./gradlew build
-      bash ./gradlew assembleDebug
+        bash ./gradlew build
+        bash ./gradlew assembleDebug
           # make sure the device is completely started before proceed
-      while [ "`adb shell getprop init.svc.bootanim | tr -d '\r' `" != "stopped" ] ; do sleep 1 && adb shell getprop init.svc.bootanim | tr -d '\r' ; done
+        while [ "`adb shell getprop init.svc.bootanim | tr -d '\r' `" != "stopped" ] ; do sleep 1 && adb shell getprop init.svc.bootanim | tr -d '\r' ; done
           # unlocking the screen
-      adb shell input keyevent 82 &
-      bash ./gradlew connectedAndroidTest
-      bash ./gradlew assembleRelease
+        adb shell input keyevent 82 &
+        bash ./gradlew connectedAndroidTest
+        bash ./gradlew assembleRelease
